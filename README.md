@@ -8,50 +8,37 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This is an implementation of a micro-service responsible for handling tasks, by managers and technicians.
+Ideally there would be an API making request to sign up and log in users, and a micro-service responsible for that. Since there was no time to implement all of that, and it was not the scope of this project, we have a module responsible for authentication, with some pre-defined users. In this module we login uses and get a jwt for them.
+
+The Tasks module is responsible for all the manipulation of tasks (create, read, update and delete), in the tasks controller we have guards to ensure that only authorized users have access to them, and in the service we connect to a mysql database.
+
+In the tasks module we implemented RabbitMQ to publish and consume events, so any time a new task is created, an event will be published. When we consume this event a Notifications Service will be called to dispatch the notification.
+
+The docker compose file contains all of the app dependencies (mysql and rabbitmq)
 
 ## Installation
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ yarn start:dev
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
+$ yarn test
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
