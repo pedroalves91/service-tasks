@@ -11,6 +11,7 @@ import { UpdateTaskDto } from '../controllers/dtos/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
 import { TasksPublisher } from '../publishers/tasks.publisher';
+import { RoleType } from '../../../libs/guards/role-type.enum';
 
 @Injectable()
 export class TasksService {
@@ -54,7 +55,9 @@ export class TasksService {
     const task = await this.tasksRepository.findOneBy({ id });
 
     if (!task) throw new NotFoundException('task not found');
-    this.hasAccessToTask(task.userId, userMetadata.id);
+    if (userMetadata.role === RoleType.TECHNICIAN) {
+      this.hasAccessToTask(task.userId, userMetadata.id);
+    }
     return task;
   }
 
