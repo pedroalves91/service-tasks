@@ -19,7 +19,7 @@ describe('AuthController spec', () => {
     it('should return a JWT if login is valid', () => {
       const login = LoginDto.Fixture.loginDto();
 
-      authService.validateUser.mockReturnValueOnce({
+      authService.validateUser.mockResolvedValue({
         id: 1,
         username: 'new-user',
         password: 'passw0rd',
