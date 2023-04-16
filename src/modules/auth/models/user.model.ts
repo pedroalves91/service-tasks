@@ -1,16 +1,33 @@
+import { Exclude } from 'class-transformer';
 import { RoleType } from '../../../libs/guards/role-type.enum';
-import { Expose } from 'class-transformer';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
 
+@Entity()
+@Unique(['username'])
 export class User {
-  @Expose()
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Expose()
+  @Column()
   username: string;
 
-  @Expose()
+  @Column()
+  @Exclude()
   password: string;
 
-  @Expose()
+  @Column()
   role: RoleType;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
