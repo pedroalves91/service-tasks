@@ -17,10 +17,8 @@ export class AuthService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  async findOne(username: string): Promise<User> {
-    const user = await this.userRepository.findOneBy({ username });
-
-    return user;
+  findOne(username: string): Promise<User> {
+    return this.userRepository.findOneBy({ username });
   }
 
   async validateUser(login: LoginDto): Promise<User | null> {

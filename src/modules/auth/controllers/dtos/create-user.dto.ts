@@ -1,5 +1,5 @@
-import { IsEnum, IsString, MinLength } from 'class-validator';
-import { RoleType } from 'src/libs/guards/role-type.enum';
+import { IsEnum, IsString, MinLength } from "class-validator";
+import { RoleType } from "../../../../libs/guards/role-type.enum";
 
 export class CreateUserDto {
   @IsString()
@@ -11,4 +11,14 @@ export class CreateUserDto {
 
   @IsEnum(RoleType, { message: 'Invalid role type' })
   role: RoleType;
+
+  static Fixture = class {
+    static newUser(): CreateUserDto {
+      return {
+        username: 'john doe',
+        password: 'my-super-pass',
+        role: RoleType.TECHNICIAN,
+      };
+    }
+  };
 }

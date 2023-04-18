@@ -16,7 +16,7 @@ describe('AuthController spec', () => {
   });
 
   describe('login', () => {
-    it('should return a JWT if login is valid', () => {
+    it('should return a JWT if login is valid', async () => {
       const login = LoginDto.Fixture.loginDto();
 
       authService.validateUser.mockResolvedValue({
@@ -26,7 +26,7 @@ describe('AuthController spec', () => {
         role: RoleType.MANAGER,
       });
 
-      const token = authController.login(login);
+      const token = await authController.login(login);
 
       let error;
       try {
