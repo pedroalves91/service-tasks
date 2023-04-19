@@ -71,7 +71,6 @@ export class TasksService {
     );
 
     const originalTask = await this.getTaskById(id, userMetadata);
-    this.hasAccessToTask(originalTask.userId, userMetadata.id);
 
     const mergedTask = {
       ...originalTask,
