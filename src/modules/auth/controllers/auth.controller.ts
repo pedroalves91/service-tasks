@@ -4,6 +4,7 @@ import { LoginDto } from './dtos/login.dto';
 import { props } from '../../../../config/props';
 import { sign } from 'jsonwebtoken';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { User } from '../models/user.model';
 
 @Controller('v1/auth')
 export class AuthController {
@@ -28,7 +29,7 @@ export class AuthController {
 
   @Post('/signup')
   @HttpCode(HttpStatus.CREATED)
-  signup(@Body() createUserDto: CreateUserDto) {
+  signup(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.authService.signup(createUserDto);
   }
 }
