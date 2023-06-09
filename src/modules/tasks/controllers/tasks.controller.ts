@@ -40,7 +40,7 @@ export class TasksController {
   @Get(':id')
   getTask(
     @Req() req: any,
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id') id: string,
   ): Promise<Task> {
     const userMetadata = req.headers['user'];
     return this.tasksService.getTaskById(id, userMetadata);
@@ -64,7 +64,7 @@ export class TasksController {
   @Patch(':id')
   async updateTask(
     @Req() req: any,
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id') id: string,
     @Body() updateTaskDto: UpdateTaskDto,
   ): Promise<void> {
     const userMetadata = req.headers['user'];
@@ -77,7 +77,7 @@ export class TasksController {
   @Delete(':id')
   async deleteTask(
     @Req() req: any,
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id') id: string,
   ) {
     const userMetadata = req.headers['user'];
     await this.tasksService.deleteTask(id, userMetadata);

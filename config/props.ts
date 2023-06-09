@@ -8,9 +8,14 @@ const props = {
   database: {
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || '3306',
-    name: process.env.DB_NAME || 'tasks',
+    name: process.env.DB_NAME || 'users',
     user: process.env.DB_USER || 'user',
     password: process.env.DB_PASSWORD || 'r00t',
+  },
+  mongo: {
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || '27017',
+    name: process.env.DB_NAME || 'tasks',
   },
   rabbit: {
     port: parseInt(process.env.RABBITMQ_PORT) || 5672,

@@ -3,6 +3,7 @@ import { TasksService } from '../services/tasks.service';
 import { TasksController } from './tasks.controller';
 import { mock, mockClear, MockProxy } from 'jest-mock-extended';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import { ObjectId } from 'mongodb';
 
 describe('TasksController spec', () => {
   let manager: JwtMetadataDto;
@@ -24,9 +25,11 @@ describe('TasksController spec', () => {
   describe('getTasks', () => {
     it('should return all tasks for a manager', async () => {
       const task = {
-        id: 1,
+        id: new ObjectId(),
         summary: 'task',
         userId: 1,
+        uuid: '2',
+        isFulfilled: false,
       };
 
       tasksService.getTasks.mockResolvedValue([task]);
@@ -56,11 +59,13 @@ describe('TasksController spec', () => {
   });
 
   describe('getTaskById', () => {
-    it('should return a tasks', async () => {
+    it('should return a task', async () => {
       const task = {
-        id: 1,
+        id: new ObjectId(),
         summary: 'task',
         userId: 1,
+        uuid: '2',
+        isFulfilled: false,
       };
 
       tasksService.getTaskById.mockResolvedValue(task);
@@ -69,7 +74,7 @@ describe('TasksController spec', () => {
         {
           headers: { user: manager },
         },
-        1,
+        '1',
       );
       expect(response).toEqual(task);
     });
@@ -85,7 +90,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: manager },
           },
-          1,
+          '1',
         );
       } catch (e) {
         error = e;
@@ -107,7 +112,7 @@ describe('TasksController spec', () => {
         {
           headers: { user: manager },
         },
-        1,
+        '1',
         taskToUpdate,
       );
       expect(tasksService.updateTask).toHaveBeenCalledTimes(1);
@@ -128,7 +133,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: manager },
           },
-          1,
+          '1',
           taskToUpdate,
         );
       } catch (e) {
@@ -153,7 +158,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: manager },
           },
-          1,
+          '1',
           taskToUpdate,
         );
       } catch (e) {
@@ -172,7 +177,7 @@ describe('TasksController spec', () => {
         {
           headers: { user: manager },
         },
-        1,
+        '1',
       );
       expect(tasksService.deleteTask).toHaveBeenCalledTimes(1);
     });
@@ -188,7 +193,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: manager },
           },
-          1,
+          '1',
         );
       } catch (e) {
         error = e;
@@ -208,7 +213,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: manager },
           },
-          1,
+          '1',
         );
       } catch (e) {
         error = e;
@@ -221,9 +226,11 @@ describe('TasksController spec', () => {
   describe('createTask', () => {
     it('should create a task for a manager', async () => {
       const task = {
-        id: 1,
+        id: new ObjectId(),
         summary: 'task',
         userId: 1,
+        uuid: '1',
+        isFulfilled: false,
       };
 
       const newTask = {

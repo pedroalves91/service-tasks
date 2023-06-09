@@ -4,6 +4,7 @@ import { Task } from '../models/task.model';
 import { Repository } from 'typeorm';
 import { TasksService } from './tasks.service';
 import { TasksPublisher } from '../publishers/tasks.publisher';
+import { ObjectId } from 'mongodb';
 
 describe('TasksService spec', () => {
   let manager: JwtMetadataDto;
@@ -26,10 +27,13 @@ describe('TasksService spec', () => {
 
   describe('getTasks', () => {
     it('should return all tasks', async () => {
+      const oid = new ObjectId();
       const task = {
-        id: 1,
+        id: oid,
         summary: 'task',
         userId: 1,
+        uuid: '1',
+        isFulfilled: false,
       };
 
       tasksRepository.find.mockResolvedValue([task]);
@@ -41,24 +45,30 @@ describe('TasksService spec', () => {
 
   describe('getTaskById', () => {
     it('should return task', async () => {
+      const oid = new ObjectId();
       const task = {
-        id: 1,
+        id: oid,
         summary: 'task',
         userId: 1,
+        uuid: '1',
+        isFulfilled: false,
       };
 
       tasksRepository.findOneBy.mockResolvedValue(task);
-      const response = await service.getTaskById(1, manager);
+      const response = await service.getTaskById('1', manager);
       expect(response).toEqual(task);
     });
   });
 
   describe('updateTask', () => {
     it('should update task', async () => {
+      const oid = new ObjectId();
       const task = {
-        id: 1,
+        id: oid,
         summary: 'task',
         userId: 1,
+        uuid: '1',
+        isFulfilled: false,
       };
 
       const updateTask = {
@@ -66,16 +76,18 @@ describe('TasksService spec', () => {
       };
 
       const newTask = {
-        id: 1,
+        id: oid,
         summary: 'new',
         userId: 1,
+        uuid: '1',
+        isFulfilled: false,
       };
 
       jest.spyOn(service, 'getTaskById').mockResolvedValue(task);
       tasksRepository.merge.mockReturnValueOnce(newTask);
       tasksRepository.save.mockResolvedValue(undefined);
 
-      await service.updateTask(1, updateTask, tech);
+      await service.updateTask('1', updateTask, tech);
 
       expect(tasksRepository.save).toHaveBeenCalledWith(newTask);
     });
@@ -83,15 +95,18 @@ describe('TasksService spec', () => {
 
   describe('deleteTask', () => {
     it('should delete a task', async () => {
+      const oid = new ObjectId();
       const task = {
-        id: 1,
+        id: oid,
         summary: 'task',
         userId: 1,
+        uuid: '1',
+        isFulfilled: false,
       };
 
       jest.spyOn(service, 'getTaskById').mockResolvedValue(task);
       tasksRepository.softRemove.mockResolvedValue(undefined);
-      await service.deleteTask(1, manager);
+      await service.deleteTask('1', manager);
       expect(tasksRepository.softRemove).toHaveBeenCalledWith(task);
     });
   });
@@ -102,10 +117,13 @@ describe('TasksService spec', () => {
         summary: 'new',
       };
 
+      const oid = new ObjectId();
       const createdTask = {
-        id: 1,
+        id: oid,
         summary: 'new',
         userId: 1,
+        uuid: '1',
+        isFulfilled: false,
       };
 
       tasksRepository.save.mockResolvedValue(createdTask);

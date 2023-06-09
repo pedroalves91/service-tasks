@@ -2,12 +2,13 @@ version: '3'
 services:
   mysql:
     image: mysql:8.0
+    container_name: mysql
     ports:
       - "3306:3306"
     expose:
       - "3306"
     environment:
-      MYSQL_DATABASE: 'tasks'
+      MYSQL_DATABASE: 'users'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'r00t'
       MYSQL_ROOT_HOST: '%'
@@ -15,9 +16,20 @@ services:
 
   rabbitmq:
     image: "rabbitmq:3-management"
+    container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
     expose:
       - "5672"
       - "15672"
+
+  core_mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MYSQL_DATABASE: 'tasks'
+      MYSQL_ROOT_HOST: '%'

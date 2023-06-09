@@ -3,13 +3,15 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
+  ObjectIdColumn,
+  UpdateDateColumn,
 } from 'typeorm';
+import { ObjectId } from 'mongodb';
 
 @Entity()
 export class Task {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ObjectIdColumn()
+  id: ObjectId;
 
   @Column({ length: 2500 })
   summary: string;
@@ -17,8 +19,17 @@ export class Task {
   @Column()
   userId: number;
 
+  @Column()
+  uuid: string;
+
+  @Column()
+  isFulfilled: boolean = false;
+
   @CreateDateColumn()
   createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 
   @DeleteDateColumn()
   deletedAt?: Date;

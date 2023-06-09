@@ -12,6 +12,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
 import { TasksPublisher } from '../publishers/tasks.publisher';
 import { RoleType } from '../../../libs/guards/role-type.enum';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class TasksService {
@@ -30,13 +31,14 @@ export class TasksService {
 
     const createdTask = await this.tasksRepository.save({
       ...createTaskDto,
+      uuid: uuidv4(),
       userId: userMetadata.id,
     });
 
     await this.tasksPublisher.publishCreatedTask({
       performedByUser: userMetadata.username,
       performedByUserId: userMetadata.id,
-      taskId: createdTask.id,
+      taskId: createdTask.uuid,
       performedAt: new Date(),
     });
 
@@ -51,8 +53,8 @@ export class TasksService {
     return this.tasksRepository.find();
   }
 
-  async getTaskById(id: number, userMetadata: JwtMetadataDto): Promise<Task> {
-    const task = await this.tasksRepository.findOneBy({ id });
+  async getTaskById(uuid: string, userMetadata: JwtMetadataDto): Promise<Task> {
+    const task = await this.tasksRepository.findOneBy({ uuid });
 
     if (!task) throw new NotFoundException('task not found');
     if (userMetadata.role === RoleType.TECHNICIAN) {
@@ -62,7 +64,7 @@ export class TasksService {
   }
 
   async updateTask(
-    id: number,
+    uuid: string,
     updateTaskDto: UpdateTaskDto,
     userMetadata: JwtMetadataDto,
   ): Promise<void> {
@@ -70,7 +72,7 @@ export class TasksService {
       `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is updating a task`,
     );
 
-    const originalTask = await this.getTaskById(id, userMetadata);
+    const originalTask = await this.getTaskById(uuid, userMetadata);
 
     const mergedTask = {
       ...originalTask,
@@ -79,12 +81,12 @@ export class TasksService {
     await this.tasksRepository.save(mergedTask);
   }
 
-  async deleteTask(id: number, userMetadata: JwtMetadataDto): Promise<void> {
+  async deleteTask(uuid: string, userMetadata: JwtMetadataDto): Promise<void> {
     Log.log(
       `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is deleting a task`,
     );
 
-    const originalTask = await this.getTaskById(id, userMetadata);
+    const originalTask = await this.getTaskById(uuid, userMetadata);
     await this.tasksRepository.softRemove(originalTask);
   }
 

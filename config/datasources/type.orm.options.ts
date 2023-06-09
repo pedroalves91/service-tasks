@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { getMetadataArgsStorage } from 'typeorm';
 import { props } from '../props';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
+import { User } from '../../src/modules/auth/models/user.model';
 
 @Injectable()
 export class TypeOrmOptions implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const database = props.database;
-    const entities = getMetadataArgsStorage().tables.map((tbl) => tbl.target);
+    const entities = [User];
 
     return {
       type: 'mysql',

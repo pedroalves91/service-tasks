@@ -20,7 +20,7 @@ describe('NotificationsService spec', () => {
       const notification: NotificationsDto = {
         performedByUser: 'user',
         performedByUserId: 1,
-        taskId: 2,
+        taskId: '2',
         performedAt: new Date(),
       };
 

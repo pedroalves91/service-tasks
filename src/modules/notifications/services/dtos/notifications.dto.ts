@@ -8,7 +8,7 @@ export class NotificationsDto {
   performedByUserId: number;
 
   @Expose()
-  taskId: number;
+  taskId: string;
 
   @Expose()
   performedAt: Date;
@@ -18,7 +18,7 @@ export class NotificationsDto {
       return {
         performedByUser: 'user',
         performedByUserId: 1,
-        taskId: 2,
+        taskId: '2',
         performedAt: new Date(),
       };
     }
