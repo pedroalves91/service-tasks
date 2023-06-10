@@ -24,7 +24,11 @@ describe('JwtMiddleware spec', () => {
   describe('use', () => {
     it('should set user in headers if token is present', () => {
       const token = 'fake-jwt-token';
-      const payload = { id: 1, username: 'john.doe', role: RoleType.MANAGER };
+      const payload = {
+        id: 1,
+        username: 'john.doe',
+        role: RoleType.MANAGER,
+      };
       jest.spyOn(JwtPayload, 'getJwtPayload').mockReturnValueOnce(payload);
       req.headers = { authorization: `Bearer ${token}` };
 

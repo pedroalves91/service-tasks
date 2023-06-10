@@ -13,7 +13,7 @@ export class Task {
   @ObjectIdColumn()
   id: ObjectId;
 
-  @Column({ length: 2500 })
+  @Column()
   summary: string;
 
   @Column()
@@ -23,7 +23,7 @@ export class Task {
   uuid: string;
 
   @Column()
-  isFulfilled: boolean = false;
+  isCompleted: boolean = false;
 
   @CreateDateColumn()
   createdAt?: Date;

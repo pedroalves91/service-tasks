@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
   Logger as Log,
+  BadRequestException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Task } from '../models/task.model';
@@ -88,6 +89,48 @@ export class TasksService {
 
     const originalTask = await this.getTaskById(uuid, userMetadata);
     await this.tasksRepository.softRemove(originalTask);
+  }
+
+  async markCompleteTask(
+    uuid: string,
+    userMetadata: JwtMetadataDto,
+  ): Promise<void> {
+    //TODO unit test missing
+    Log.log(
+      `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is marking a task completed`,
+    );
+
+    const originalTask = await this.getTaskById(uuid, userMetadata);
+
+    if (originalTask.isCompleted) {
+      throw new BadRequestException('This task is already completed');
+    }
+
+    await this.tasksRepository.save({
+      ...originalTask,
+      isCompleted: true,
+    });
+  }
+
+  async markIncompleteTask(
+    uuid: string,
+    userMetadata: JwtMetadataDto,
+  ): Promise<void> {
+    //TODO unit test missing
+    Log.log(
+      `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is marking a task incomplete`,
+    );
+
+    const originalTask = await this.getTaskById(uuid, userMetadata);
+
+    if (!originalTask.isCompleted) {
+      throw new BadRequestException('This task is already uncompleted');
+    }
+
+    await this.tasksRepository.save({
+      ...originalTask,
+      isCompleted: false,
+    });
   }
 
   private hasAccessToTask(taskUserId: number, userId: number): void {

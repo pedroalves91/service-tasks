@@ -6,7 +6,6 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
@@ -37,13 +36,10 @@ export class TasksController {
   @GuardRole(RoleType.MANAGER, RoleType.TECHNICIAN)
   @UseGuards(ManagerGuard, TechnicianGuard)
   @HttpCode(HttpStatus.OK)
-  @Get(':id')
-  getTask(
-    @Req() req: any,
-    @Param('id') id: string,
-  ): Promise<Task> {
+  @Get(':uuid')
+  getTask(@Req() req: any, @Param('uuid') uuid: string): Promise<Task> {
     const userMetadata = req.headers['user'];
-    return this.tasksService.getTaskById(id, userMetadata);
+    return this.tasksService.getTaskById(uuid, userMetadata);
   }
 
   @GuardRole(RoleType.TECHNICIAN)
@@ -61,25 +57,49 @@ export class TasksController {
   @GuardRole(RoleType.TECHNICIAN)
   @UseGuards(TechnicianGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Patch(':id')
+  @Patch(':uuid')
   async updateTask(
     @Req() req: any,
-    @Param('id') id: string,
+    @Param('uuid') uuid: string,
     @Body() updateTaskDto: UpdateTaskDto,
   ): Promise<void> {
     const userMetadata = req.headers['user'];
-    await this.tasksService.updateTask(id, updateTaskDto, userMetadata);
+    await this.tasksService.updateTask(uuid, updateTaskDto, userMetadata);
   }
 
   @GuardRole(RoleType.MANAGER)
   @UseGuards(ManagerGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
-  @Delete(':id')
+  @Delete(':uuid')
   async deleteTask(
     @Req() req: any,
-    @Param('id') id: string,
-  ) {
+    @Param('uuid') uuid: string,
+  ): Promise<void> {
     const userMetadata = req.headers['user'];
-    await this.tasksService.deleteTask(id, userMetadata);
+    await this.tasksService.deleteTask(uuid, userMetadata);
+  }
+
+  @GuardRole(RoleType.MANAGER, RoleType.TECHNICIAN) //TODO unit test missing
+  @UseGuards(ManagerGuard, TechnicianGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch(':uuid/mark-complete')
+  async completeTask(
+    @Req() req: any,
+    @Param('uuid') uuid: string,
+  ): Promise<void> {
+    const userMetadata = req.headers['user'];
+    await this.tasksService.markCompleteTask(uuid, userMetadata);
+  }
+
+  @GuardRole(RoleType.MANAGER, RoleType.TECHNICIAN) //TODO unit test missing
+  @UseGuards(ManagerGuard, TechnicianGuard)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch(':uuid/mark-incomplete')
+  async unCompleteTask(
+    @Req() req: any,
+    @Param('uuid') uuid: string,
+  ): Promise<void> {
+    const userMetadata = req.headers['user'];
+    await this.tasksService.markIncompleteTask(uuid, userMetadata);
   }
 }

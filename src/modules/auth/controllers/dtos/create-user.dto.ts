@@ -1,5 +1,5 @@
-import { IsEnum, IsString, MinLength } from "class-validator";
-import { RoleType } from "../../../../libs/guards/role-type.enum";
+import { IsEnum, IsString, MinLength } from 'class-validator';
+import { RoleType } from '../../../../libs/guards/role-type.enum';
 
 export class CreateUserDto {
   @IsString()

@@ -29,7 +29,7 @@ describe('TasksController spec', () => {
         summary: 'task',
         userId: 1,
         uuid: '2',
-        isFulfilled: false,
+        isCompleted: false,
       };
 
       tasksService.getTasks.mockResolvedValue([task]);
@@ -65,7 +65,7 @@ describe('TasksController spec', () => {
         summary: 'task',
         userId: 1,
         uuid: '2',
-        isFulfilled: false,
+        isCompleted: false,
       };
 
       tasksService.getTaskById.mockResolvedValue(task);
@@ -230,7 +230,7 @@ describe('TasksController spec', () => {
         summary: 'task',
         userId: 1,
         uuid: '1',
-        isFulfilled: false,
+        isCompleted: false,
       };
 
       const newTask = {

@@ -12,8 +12,8 @@ describe('HealthController', () => {
     controller = app.get<HealthController>(HealthController);
   });
 
-  describe('ping', () => {
-    it('should return "pong"', () => {
+  describe('check', () => {
+    it('should return "ok"', () => {
       expect(controller.check()).toBe('ok');
     });
   });

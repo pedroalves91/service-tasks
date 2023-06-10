@@ -33,7 +33,7 @@ describe('TasksService spec', () => {
         summary: 'task',
         userId: 1,
         uuid: '1',
-        isFulfilled: false,
+        isCompleted: false,
       };
 
       tasksRepository.find.mockResolvedValue([task]);
@@ -51,7 +51,7 @@ describe('TasksService spec', () => {
         summary: 'task',
         userId: 1,
         uuid: '1',
-        isFulfilled: false,
+        isCompleted: false,
       };
 
       tasksRepository.findOneBy.mockResolvedValue(task);
@@ -68,7 +68,7 @@ describe('TasksService spec', () => {
         summary: 'task',
         userId: 1,
         uuid: '1',
-        isFulfilled: false,
+        isCompleted: false,
       };
 
       const updateTask = {
@@ -80,7 +80,7 @@ describe('TasksService spec', () => {
         summary: 'new',
         userId: 1,
         uuid: '1',
-        isFulfilled: false,
+        isCompleted: false,
       };
 
       jest.spyOn(service, 'getTaskById').mockResolvedValue(task);
@@ -101,7 +101,7 @@ describe('TasksService spec', () => {
         summary: 'task',
         userId: 1,
         uuid: '1',
-        isFulfilled: false,
+        isCompleted: false,
       };
 
       jest.spyOn(service, 'getTaskById').mockResolvedValue(task);
@@ -123,7 +123,7 @@ describe('TasksService spec', () => {
         summary: 'new',
         userId: 1,
         uuid: '1',
-        isFulfilled: false,
+        isCompleted: false,
       };
 
       tasksRepository.save.mockResolvedValue(createdTask);
