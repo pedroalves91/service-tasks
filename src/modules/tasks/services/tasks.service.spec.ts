@@ -5,7 +5,11 @@ import { Repository } from 'typeorm';
 import { TasksService } from './tasks.service';
 import { TasksPublisher } from '../publishers/tasks.publisher';
 import { ObjectId } from 'mongodb';
-import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  NotFoundException,
+} from '@nestjs/common';
 
 describe('TasksService spec', () => {
   let manager: JwtMetadataDto;
