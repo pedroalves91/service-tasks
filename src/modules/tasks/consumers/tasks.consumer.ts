@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { NotificationsService } from '../../notifications/services/notifications.service';
+import { NotificationsService } from '@notifications/services/notifications.service';
 import { Channel, ConsumeMessage } from 'amqplib';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
-import { props } from '../../../../config/props';
-import { NotificationsDto } from '../../notifications/services/dtos/notifications.dto';
+import { props } from '@config/props';
+import { NotificationsDto } from '@notifications/services/dtos/notifications.dto';
 
 const errorHandler = (channel: Channel, msg: ConsumeMessage) => {
   // Nacking with requeue: false will send to dead letter exchange.

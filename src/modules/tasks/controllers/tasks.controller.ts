@@ -11,10 +11,10 @@ import {
   UseGuards,
   Req,
 } from '@nestjs/common';
-import { GuardRole } from '../../../libs/guards/guard-role.decorator';
-import { RoleType } from '../../../libs/guards/role-type.enum';
-import { ManagerGuard } from '../../../libs/guards/manager.guard';
-import { TechnicianGuard } from '../../../libs/guards/technician.guard';
+import { GuardRole } from '@libs/guards/guard-role.decorator';
+import { RoleType } from '@libs/guards/role-type.enum';
+import { ManagerGuard } from '@libs/guards/manager.guard';
+import { TechnicianGuard } from '@libs/guards/technician.guard';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { UpdateTaskDto } from './dtos/update-task.dto';
 import { TasksService } from '../services/tasks.service';
