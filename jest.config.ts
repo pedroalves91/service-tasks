@@ -38,7 +38,7 @@ const jestConfig: JestConfigWithTsJest = {
         '<rootDir>/src/main.ts',
         '.mock.ts',
         '.json',
-        'docs',
+        'config',
     ],
     moduleFileExtensions: ['js', 'json', 'ts'],
     coverageReporters: ['text', 'lcov', 'cobertura'],

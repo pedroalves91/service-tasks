@@ -1,4 +1,4 @@
-import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
+import { JwtMetadataDto } from '@libs/jwt/jwt-metadata.dto';
 import { TasksService } from '../services/tasks.service';
 import { TasksController } from './tasks.controller';
 import { mock, mockClear, MockProxy } from 'jest-mock-extended';

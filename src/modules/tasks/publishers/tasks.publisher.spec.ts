@@ -1,8 +1,8 @@
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
-import { props } from '../../../../config/props';
+import { props } from '@config/props';
 import { mock, MockProxy } from 'jest-mock-extended';
 import { TasksPublisher } from './tasks.publisher';
-import { NotificationsDto } from '../../notifications/services/dtos/notifications.dto';
+import { NotificationsDto } from '@notifications/services/dtos/notifications.dto';
 
 describe('TasksPublisher spec', () => {
   let publisher: TasksPublisher;

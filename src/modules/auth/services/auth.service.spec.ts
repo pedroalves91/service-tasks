@@ -1,8 +1,8 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from '../controllers/dtos/login.dto';
 import { mock, MockProxy } from 'jest-mock-extended';
-import { RoleType } from '../../../libs/guards/role-type.enum';
+import { RoleType } from '@libs/guards/role-type.enum';
 import { Repository } from 'typeorm';
 import { User } from '../models/user.model';
 import * as bcrypt from 'bcrypt';
@@ -71,6 +71,26 @@ describe('AuthService spec', () => {
       const user = await authService.signup(newUser);
 
       expect(user.username).toEqual(newUser.username);
+    });
+
+    it('should throw an error if user already exists', async () => {
+      const newUser = CreateUserDto.Fixture.newUser();
+
+      jest.spyOn(authService, 'findOne').mockResolvedValue({
+        id: 1,
+        username: newUser.username,
+        password: newUser.password,
+        role: newUser.role,
+      });
+
+      let error;
+      try {
+        await authService.signup(newUser);
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(ConflictException);
     });
   });
 });

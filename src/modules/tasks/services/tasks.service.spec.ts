@@ -1,11 +1,11 @@
-import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
+import { JwtMetadataDto } from '@libs/jwt/jwt-metadata.dto';
 import { mock, mockClear, MockProxy } from 'jest-mock-extended';
 import { Task } from '../models/task.model';
 import { Repository } from 'typeorm';
 import { TasksService } from './tasks.service';
 import { TasksPublisher } from '../publishers/tasks.publisher';
 import { ObjectId } from 'mongodb';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 
 describe('TasksService spec', () => {
   let manager: JwtMetadataDto;
@@ -59,6 +59,29 @@ describe('TasksService spec', () => {
       const response = await service.getTaskById('1', manager);
       expect(response).toEqual(task);
     });
+
+    it('should throw not found exception when task does not exist', async () => {
+      tasksRepository.findOneBy.mockResolvedValue(undefined);
+      await expect(service.getTaskById('1', manager)).rejects.toThrowError(
+        NotFoundException,
+      );
+    });
+
+    it('should throw forbidden exception when task does not belong to user', async () => {
+      const oid = new ObjectId();
+      const task = {
+        id: oid,
+        summary: 'task',
+        userId: 2,
+        uuid: '1',
+        isCompleted: false,
+      };
+
+      tasksRepository.findOneBy.mockResolvedValue(task);
+      await expect(service.getTaskById('1', tech)).rejects.toThrowError(
+        ForbiddenException,
+      );
+    });
   });
 
   describe('updateTask', () => {
@@ -109,6 +132,13 @@ describe('TasksService spec', () => {
       tasksRepository.softRemove.mockResolvedValue(undefined);
       await service.deleteTask('1', manager);
       expect(tasksRepository.softRemove).toHaveBeenCalledWith(task);
+    });
+
+    it('should throw not found exception when task does not exist', async () => {
+      tasksRepository.findOneBy.mockResolvedValue(undefined);
+      await expect(service.deleteTask('1', manager)).rejects.toThrowError(
+        NotFoundException,
+      );
     });
   });
 
