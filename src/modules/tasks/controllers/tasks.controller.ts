@@ -79,7 +79,7 @@ export class TasksController {
     await this.tasksService.deleteTask(uuid, userMetadata);
   }
 
-  @GuardRole(RoleType.MANAGER, RoleType.TECHNICIAN) //TODO unit test missing
+  @GuardRole(RoleType.MANAGER, RoleType.TECHNICIAN)
   @UseGuards(ManagerGuard, TechnicianGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':uuid/mark-complete')
@@ -91,7 +91,7 @@ export class TasksController {
     await this.tasksService.markCompleteTask(uuid, userMetadata);
   }
 
-  @GuardRole(RoleType.MANAGER, RoleType.TECHNICIAN) //TODO unit test missing
+  @GuardRole(RoleType.MANAGER, RoleType.TECHNICIAN)
   @UseGuards(ManagerGuard, TechnicianGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':uuid/mark-incomplete')

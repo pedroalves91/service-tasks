@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { TasksService } from './tasks.service';
 import { TasksPublisher } from '../publishers/tasks.publisher';
 import { ObjectId } from 'mongodb';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('TasksService spec', () => {
   let manager: JwtMetadataDto;
@@ -130,6 +131,138 @@ describe('TasksService spec', () => {
 
       const response = await service.createTask(newTask, manager);
       expect(response).toEqual(createdTask);
+    });
+  });
+
+  describe('markCompleteTask', () => {
+    it('should mark task as complete', async () => {
+      const oid = new ObjectId();
+      const task = {
+        id: oid,
+        summary: 'task',
+        userId: 1,
+        uuid: '1',
+        isCompleted: false,
+      };
+
+      jest.spyOn(service, 'getTaskById').mockResolvedValue(task);
+
+      const updatedTask = {
+        id: oid,
+        summary: 'task',
+        userId: 1,
+        uuid: '1',
+        isCompleted: true,
+      };
+      tasksRepository.merge.mockReturnValueOnce(updatedTask);
+      tasksRepository.save.mockResolvedValue(undefined);
+
+      await service.markCompleteTask('1', tech);
+
+      expect(tasksRepository.save).toHaveBeenCalledWith(updatedTask);
+    });
+
+    it('should throw Bad Request if task is already completed', async () => {
+      const oid = new ObjectId();
+      const task = {
+        id: oid,
+        summary: 'task',
+        userId: 1,
+        uuid: '1',
+        isCompleted: true,
+      };
+
+      jest.spyOn(service, 'getTaskById').mockResolvedValue(task);
+
+      let error;
+      try {
+        await service.markCompleteTask('1', tech);
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(BadRequestException);
+    });
+
+    it('should throw Not Found if task is not found', async () => {
+      jest.spyOn(service, 'getTaskById').mockImplementation(() => {
+        throw new NotFoundException();
+      });
+
+      let error;
+      try {
+        await service.markCompleteTask('1', tech);
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(NotFoundException);
+    });
+  });
+
+  describe('markIncompleteTask', () => {
+    it('should mark task as incomplete', async () => {
+      const oid = new ObjectId();
+      const task = {
+        id: oid,
+        summary: 'task',
+        userId: 1,
+        uuid: '1',
+        isCompleted: true,
+      };
+
+      jest.spyOn(service, 'getTaskById').mockResolvedValue(task);
+
+      const updatedTask = {
+        id: oid,
+        summary: 'task',
+        userId: 1,
+        uuid: '1',
+        isCompleted: false,
+      };
+      tasksRepository.merge.mockReturnValueOnce(updatedTask);
+      tasksRepository.save.mockResolvedValue(undefined);
+
+      await service.markIncompleteTask('1', tech);
+
+      expect(tasksRepository.save).toHaveBeenCalledWith(updatedTask);
+    });
+
+    it('should throw Bad Request if task is already incomplete', async () => {
+      const oid = new ObjectId();
+      const task = {
+        id: oid,
+        summary: 'task',
+        userId: 1,
+        uuid: '1',
+        isCompleted: false,
+      };
+
+      jest.spyOn(service, 'getTaskById').mockResolvedValue(task);
+
+      let error;
+      try {
+        await service.markIncompleteTask('1', tech);
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(BadRequestException);
+    });
+
+    it('should throw Not Found if task is not found', async () => {
+      jest.spyOn(service, 'getTaskById').mockImplementation(() => {
+        throw new NotFoundException();
+      });
+
+      let error;
+      try {
+        await service.markIncompleteTask('1', tech);
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(NotFoundException);
     });
   });
 });

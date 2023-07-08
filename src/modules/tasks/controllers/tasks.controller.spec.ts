@@ -2,7 +2,11 @@ import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
 import { TasksService } from '../services/tasks.service';
 import { TasksController } from './tasks.controller';
 import { mock, mockClear, MockProxy } from 'jest-mock-extended';
-import { ForbiddenException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ObjectId } from 'mongodb';
 
 describe('TasksController spec', () => {
@@ -270,6 +274,114 @@ describe('TasksController spec', () => {
       }
 
       expect(error).toBeInstanceOf(ForbiddenException);
+    });
+  });
+
+  describe('completeTask', () => {
+    it('should complete a task for a tech and call all external methods', async () => {
+      tasksService.markCompleteTask.mockResolvedValue(undefined);
+
+      await controller.completeTask(
+        {
+          headers: { user: tech },
+        },
+        '1',
+      );
+      expect(tasksService.markCompleteTask).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw not found if task does not exist', async () => {
+      tasksService.markCompleteTask.mockImplementation(() => {
+        throw new NotFoundException();
+      });
+
+      let error;
+      try {
+        await controller.completeTask(
+          {
+            headers: { user: tech },
+          },
+          '1',
+        );
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(NotFoundException);
+    });
+
+    it('should throw bad request if task does is already completed', async () => {
+      tasksService.markCompleteTask.mockImplementation(() => {
+        throw new BadRequestException();
+      });
+
+      let error;
+      try {
+        await controller.completeTask(
+          {
+            headers: { user: tech },
+          },
+          '1',
+        );
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(BadRequestException);
+    });
+  });
+
+  describe('uncompleteTask', () => {
+    it('should mark a task not completed for a tech and call all external methods', async () => {
+      tasksService.markIncompleteTask.mockResolvedValue(undefined);
+
+      await controller.unCompleteTask(
+        {
+          headers: { user: tech },
+        },
+        '1',
+      );
+      expect(tasksService.markIncompleteTask).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw not found if task does not exist', async () => {
+      tasksService.markIncompleteTask.mockImplementation(() => {
+        throw new NotFoundException();
+      });
+
+      let error;
+      try {
+        await controller.unCompleteTask(
+          {
+            headers: { user: tech },
+          },
+          '1',
+        );
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(NotFoundException);
+    });
+
+    it('should throw bad request if task does is already uncompleted', async () => {
+      tasksService.markIncompleteTask.mockImplementation(() => {
+        throw new BadRequestException();
+      });
+
+      let error;
+      try {
+        await controller.unCompleteTask(
+          {
+            headers: { user: tech },
+          },
+          '1',
+        );
+      } catch (e) {
+        error = e;
+      }
+
+      expect(error).toBeInstanceOf(BadRequestException);
     });
   });
 });

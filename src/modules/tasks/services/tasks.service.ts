@@ -95,7 +95,6 @@ export class TasksService {
     uuid: string,
     userMetadata: JwtMetadataDto,
   ): Promise<void> {
-    //TODO unit test missing
     Log.log(
       `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is marking a task completed`,
     );
@@ -116,7 +115,6 @@ export class TasksService {
     uuid: string,
     userMetadata: JwtMetadataDto,
   ): Promise<void> {
-    //TODO unit test missing
     Log.log(
       `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is marking a task incomplete`,
     );
