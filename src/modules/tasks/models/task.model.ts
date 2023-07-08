@@ -23,7 +23,7 @@ export class Task {
   uuid: string;
 
   @Column()
-  isCompleted: boolean = false;
+  isCompleted = false;
 
   @CreateDateColumn()
   createdAt?: Date;
