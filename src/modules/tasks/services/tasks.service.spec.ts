@@ -4,11 +4,7 @@ import { Repository } from 'typeorm';
 import { TasksService } from './tasks.service';
 import { TasksPublisher } from '../publishers/tasks.publisher';
 import { ObjectId } from 'mongodb';
-import {
-  BadRequestException,
-  ForbiddenException,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
 
 describe('TasksService spec', () => {
@@ -66,9 +62,7 @@ describe('TasksService spec', () => {
 
     it('should throw not found exception when task does not exist', async () => {
       tasksRepository.findOneBy.mockResolvedValue(undefined);
-      await expect(service.getTaskById('1', manager)).rejects.toThrowError(
-        NotFoundException,
-      );
+      await expect(service.getTaskById('1', manager)).rejects.toThrowError(NotFoundException);
     });
 
     it('should throw forbidden exception when task does not belong to user', async () => {
@@ -82,9 +76,7 @@ describe('TasksService spec', () => {
       };
 
       tasksRepository.findOneBy.mockResolvedValue(task);
-      await expect(service.getTaskById('1', tech)).rejects.toThrowError(
-        ForbiddenException,
-      );
+      await expect(service.getTaskById('1', tech)).rejects.toThrowError(ForbiddenException);
     });
   });
 
@@ -140,9 +132,7 @@ describe('TasksService spec', () => {
 
     it('should throw not found exception when task does not exist', async () => {
       tasksRepository.findOneBy.mockResolvedValue(undefined);
-      await expect(service.deleteTask('1', manager)).rejects.toThrowError(
-        NotFoundException,
-      );
+      await expect(service.deleteTask('1', manager)).rejects.toThrowError(NotFoundException);
     });
   });
 

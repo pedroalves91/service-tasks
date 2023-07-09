@@ -34,13 +34,8 @@ describe('BaseGuard', () => {
 
       reflectorMock.get.mockReturnValueOnce(undefined);
 
-      expect(() => guard.handleRoute(contextMock, roleType)).toThrow(
-        UnauthorizedException,
-      );
-      expect(reflectorMock.get).toHaveBeenCalledWith(
-        'role',
-        contextMock.getHandler(),
-      );
+      expect(() => guard.handleRoute(contextMock, roleType)).toThrow(UnauthorizedException);
+      expect(reflectorMock.get).toHaveBeenCalledWith('role', contextMock.getHandler());
     });
 
     it('should return true when the provided roleType is included in the roles array', () => {
@@ -54,10 +49,7 @@ describe('BaseGuard', () => {
       const result = guard.handleRoute(contextMock, roleType);
 
       expect(result).toBe(true);
-      expect(reflectorMock.get).toHaveBeenCalledWith(
-        'role',
-        contextMock.getHandler(),
-      );
+      expect(reflectorMock.get).toHaveBeenCalledWith('role', contextMock.getHandler());
     });
 
     it('should return false when the provided roleType is not included in the roles array', () => {
@@ -71,10 +63,7 @@ describe('BaseGuard', () => {
       const result = guard.handleRoute(contextMock, roleType);
 
       expect(result).toBe(false);
-      expect(reflectorMock.get).toHaveBeenCalledWith(
-        'role',
-        contextMock.getHandler(),
-      );
+      expect(reflectorMock.get).toHaveBeenCalledWith('role', contextMock.getHandler());
     });
   });
 });

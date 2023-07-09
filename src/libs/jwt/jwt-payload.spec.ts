@@ -39,7 +39,7 @@ describe('JwtPayload spec', () => {
         {
           metadata: tokenPayloadMetadata,
         },
-        props.auth.secret,
+        props.auth.secret
       );
 
       const expectedPayload = JwtPayload.getJwtPayload(validToken);

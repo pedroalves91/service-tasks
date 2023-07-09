@@ -1,11 +1,7 @@
 import { TasksService } from '../services/tasks.service';
 import { TasksController } from './tasks.controller';
 import { mock, mockClear, MockProxy } from 'jest-mock-extended';
-import {
-  BadRequestException,
-  ForbiddenException,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { ObjectId } from 'mongodb';
 import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
 
@@ -78,7 +74,7 @@ describe('TasksController spec', () => {
         {
           headers: { user: manager },
         },
-        '1',
+        '1'
       );
       expect(response).toEqual(task);
     });
@@ -94,7 +90,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: manager },
           },
-          '1',
+          '1'
         );
       } catch (e) {
         error = e;
@@ -117,7 +113,7 @@ describe('TasksController spec', () => {
           headers: { user: manager },
         },
         '1',
-        taskToUpdate,
+        taskToUpdate
       );
       expect(tasksService.updateTask).toHaveBeenCalledTimes(1);
     });
@@ -138,7 +134,7 @@ describe('TasksController spec', () => {
             headers: { user: manager },
           },
           '1',
-          taskToUpdate,
+          taskToUpdate
         );
       } catch (e) {
         error = e;
@@ -163,7 +159,7 @@ describe('TasksController spec', () => {
             headers: { user: manager },
           },
           '1',
-          taskToUpdate,
+          taskToUpdate
         );
       } catch (e) {
         error = e;
@@ -181,7 +177,7 @@ describe('TasksController spec', () => {
         {
           headers: { user: manager },
         },
-        '1',
+        '1'
       );
       expect(tasksService.deleteTask).toHaveBeenCalledTimes(1);
     });
@@ -197,7 +193,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: manager },
           },
-          '1',
+          '1'
         );
       } catch (e) {
         error = e;
@@ -217,7 +213,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: manager },
           },
-          '1',
+          '1'
         );
       } catch (e) {
         error = e;
@@ -247,7 +243,7 @@ describe('TasksController spec', () => {
         {
           headers: { user: manager },
         },
-        newTask,
+        newTask
       );
       expect(response).toEqual(task);
     });
@@ -267,7 +263,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: tech },
           },
-          newTask,
+          newTask
         );
       } catch (e) {
         error = e;
@@ -285,7 +281,7 @@ describe('TasksController spec', () => {
         {
           headers: { user: tech },
         },
-        '1',
+        '1'
       );
       expect(tasksService.markCompleteTask).toHaveBeenCalledTimes(1);
     });
@@ -301,7 +297,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: tech },
           },
-          '1',
+          '1'
         );
       } catch (e) {
         error = e;
@@ -321,7 +317,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: tech },
           },
-          '1',
+          '1'
         );
       } catch (e) {
         error = e;
@@ -339,7 +335,7 @@ describe('TasksController spec', () => {
         {
           headers: { user: tech },
         },
-        '1',
+        '1'
       );
       expect(tasksService.markIncompleteTask).toHaveBeenCalledTimes(1);
     });
@@ -355,7 +351,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: tech },
           },
-          '1',
+          '1'
         );
       } catch (e) {
         error = e;
@@ -375,7 +371,7 @@ describe('TasksController spec', () => {
           {
             headers: { user: tech },
           },
-          '1',
+          '1'
         );
       } catch (e) {
         error = e;

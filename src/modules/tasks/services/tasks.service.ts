@@ -1,10 +1,4 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-  Logger as Log,
-  BadRequestException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, Logger as Log, BadRequestException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Task } from '../models/task.model';
 import { CreateTaskDto } from '../controllers/dtos/create-task.dto';
@@ -19,16 +13,11 @@ import { RoleType } from '../../../libs/guards/role-type.enum';
 export class TasksService {
   constructor(
     @InjectRepository(Task) private tasksRepository: Repository<Task>,
-    private readonly tasksPublisher: TasksPublisher,
+    private readonly tasksPublisher: TasksPublisher
   ) {}
 
-  async createTask(
-    createTaskDto: CreateTaskDto,
-    userMetadata: JwtMetadataDto,
-  ): Promise<Task> {
-    Log.log(
-      `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is creating a new task`,
-    );
+  async createTask(createTaskDto: CreateTaskDto, userMetadata: JwtMetadataDto): Promise<Task> {
+    Log.log(`${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is creating a new task`);
 
     const createdTask = await this.tasksRepository.save({
       ...createTaskDto,
@@ -47,9 +36,7 @@ export class TasksService {
   }
 
   getTasks(userMetadata: JwtMetadataDto): Promise<Task[]> {
-    Log.log(
-      `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is getting all tasks`,
-    );
+    Log.log(`${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is getting all tasks`);
 
     return this.tasksRepository.find();
   }
@@ -64,14 +51,8 @@ export class TasksService {
     return task;
   }
 
-  async updateTask(
-    uuid: string,
-    updateTaskDto: UpdateTaskDto,
-    userMetadata: JwtMetadataDto,
-  ): Promise<void> {
-    Log.log(
-      `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is updating a task`,
-    );
+  async updateTask(uuid: string, updateTaskDto: UpdateTaskDto, userMetadata: JwtMetadataDto): Promise<void> {
+    Log.log(`${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is updating a task`);
 
     const originalTask = await this.getTaskById(uuid, userMetadata);
 
@@ -83,21 +64,14 @@ export class TasksService {
   }
 
   async deleteTask(uuid: string, userMetadata: JwtMetadataDto): Promise<void> {
-    Log.log(
-      `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is deleting a task`,
-    );
+    Log.log(`${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is deleting a task`);
 
     const originalTask = await this.getTaskById(uuid, userMetadata);
     await this.tasksRepository.softRemove(originalTask);
   }
 
-  async markCompleteTask(
-    uuid: string,
-    userMetadata: JwtMetadataDto,
-  ): Promise<void> {
-    Log.log(
-      `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is marking a task completed`,
-    );
+  async markCompleteTask(uuid: string, userMetadata: JwtMetadataDto): Promise<void> {
+    Log.log(`${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is marking a task completed`);
 
     const originalTask = await this.getTaskById(uuid, userMetadata);
 
@@ -111,13 +85,8 @@ export class TasksService {
     });
   }
 
-  async markIncompleteTask(
-    uuid: string,
-    userMetadata: JwtMetadataDto,
-  ): Promise<void> {
-    Log.log(
-      `${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is marking a task incomplete`,
-    );
+  async markIncompleteTask(uuid: string, userMetadata: JwtMetadataDto): Promise<void> {
+    Log.log(`${userMetadata.role} ${userMetadata.username} with id ${userMetadata.id} is marking a task incomplete`);
 
     const originalTask = await this.getTaskById(uuid, userMetadata);
 
@@ -132,7 +101,6 @@ export class TasksService {
   }
 
   private hasAccessToTask(taskUserId: number, userId: number): void {
-    if (taskUserId !== userId)
-      throw new ForbiddenException('You dont have access to this task');
+    if (taskUserId !== userId) throw new ForbiddenException('You dont have access to this task');
   }
 }

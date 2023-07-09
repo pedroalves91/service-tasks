@@ -60,9 +60,7 @@ describe('TechnicianGuard', () => {
 
       expect(() => {
         guard.canActivate(context);
-      }).toThrowError(
-        new ForbiddenException(`Resource not allowed for user role'`),
-      );
+      }).toThrowError(new ForbiddenException(`Resource not allowed for user role'`));
     });
   });
 });

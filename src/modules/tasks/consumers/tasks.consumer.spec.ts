@@ -14,9 +14,7 @@ describe('TasksConsumer Unit Tests', () => {
 
   describe('handlePerformedTask', () => {
     it('should notify manager when handling a performed task', () => {
-      consumer.consumeCreatedTaskNotification(
-        NotificationsDto.Fixture.newNotification(),
-      );
+      consumer.consumeCreatedTaskNotification(NotificationsDto.Fixture.newNotification());
 
       expect(notificationsService.dispatchNotification).toBeCalled();
     });

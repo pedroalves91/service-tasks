@@ -27,7 +27,7 @@ describe('NotificationsService spec', () => {
       notificationsService.dispatchNotification(notification);
 
       expect(loggerSpy).toHaveBeenCalledWith(
-        `The tech ${notification.performedByUser} with id ${notification.performedByUserId} performed the task ${notification.taskId} on date ${notification.performedAt}`,
+        `The tech ${notification.performedByUser} with id ${notification.performedByUserId} performed the task ${notification.taskId} on date ${notification.performedAt}`
       );
     });
   });

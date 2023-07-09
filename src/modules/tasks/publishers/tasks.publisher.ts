@@ -7,13 +7,11 @@ import { props } from '../../../../config/props';
 export class TasksPublisher {
   constructor(private readonly amqpConnection: AmqpConnection) {}
 
-  public publishCreatedTask(
-    createdTaskNotification: NotificationsDto,
-  ): Promise<void> {
+  public publishCreatedTask(createdTaskNotification: NotificationsDto): Promise<void> {
     return this.amqpConnection.publish(
       props.rabbit.exchanges.task.name,
       props.rabbit.exchanges.task.routingKeys.created,
-      createdTaskNotification,
+      createdTaskNotification
     );
   }
 }

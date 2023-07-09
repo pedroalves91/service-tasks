@@ -46,10 +46,7 @@ export class TasksController {
   @UseGuards(TechnicianGuard)
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  createTask(
-    @Req() req: any,
-    @Body() createTaskDto: CreateTaskDto,
-  ): Promise<Task> {
+  createTask(@Req() req: any, @Body() createTaskDto: CreateTaskDto): Promise<Task> {
     const userMetadata = req.headers['user'];
     return this.tasksService.createTask(createTaskDto, userMetadata);
   }
@@ -58,11 +55,7 @@ export class TasksController {
   @UseGuards(TechnicianGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':uuid')
-  async updateTask(
-    @Req() req: any,
-    @Param('uuid') uuid: string,
-    @Body() updateTaskDto: UpdateTaskDto,
-  ): Promise<void> {
+  async updateTask(@Req() req: any, @Param('uuid') uuid: string, @Body() updateTaskDto: UpdateTaskDto): Promise<void> {
     const userMetadata = req.headers['user'];
     await this.tasksService.updateTask(uuid, updateTaskDto, userMetadata);
   }
@@ -71,10 +64,7 @@ export class TasksController {
   @UseGuards(ManagerGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':uuid')
-  async deleteTask(
-    @Req() req: any,
-    @Param('uuid') uuid: string,
-  ): Promise<void> {
+  async deleteTask(@Req() req: any, @Param('uuid') uuid: string): Promise<void> {
     const userMetadata = req.headers['user'];
     await this.tasksService.deleteTask(uuid, userMetadata);
   }
@@ -83,10 +73,7 @@ export class TasksController {
   @UseGuards(ManagerGuard, TechnicianGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':uuid/mark-complete')
-  async completeTask(
-    @Req() req: any,
-    @Param('uuid') uuid: string,
-  ): Promise<void> {
+  async completeTask(@Req() req: any, @Param('uuid') uuid: string): Promise<void> {
     const userMetadata = req.headers['user'];
     await this.tasksService.markCompleteTask(uuid, userMetadata);
   }
@@ -95,10 +82,7 @@ export class TasksController {
   @UseGuards(ManagerGuard, TechnicianGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':uuid/mark-incomplete')
-  async unCompleteTask(
-    @Req() req: any,
-    @Param('uuid') uuid: string,
-  ): Promise<void> {
+  async unCompleteTask(@Req() req: any, @Param('uuid') uuid: string): Promise<void> {
     const userMetadata = req.headers['user'];
     await this.tasksService.markIncompleteTask(uuid, userMetadata);
   }

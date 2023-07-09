@@ -1,9 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { LoginDto } from '../controllers/dtos/login.dto';
 import { User } from '../models/user.model';
 import * as bcrypt from 'bcrypt';
@@ -13,9 +8,7 @@ import { CreateUserDto } from '../controllers/dtos/create-user.dto';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
-  ) {}
+  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
 
   findOne(username: string): Promise<User> {
     return this.userRepository.findOneBy({ username });

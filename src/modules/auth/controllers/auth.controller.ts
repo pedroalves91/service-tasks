@@ -23,7 +23,7 @@ export class AuthController {
           role: user.role,
         },
       },
-      props.auth.secret,
+      props.auth.secret
     );
   }
 

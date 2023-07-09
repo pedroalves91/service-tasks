@@ -20,7 +20,7 @@ describe('TasksPublisher spec', () => {
       amqpConnection.publish.calledWith(
         props.rabbit.exchanges.task.name,
         props.rabbit.exchanges.task.routingKeys.created,
-        createdTask,
+        createdTask
       );
     });
   });

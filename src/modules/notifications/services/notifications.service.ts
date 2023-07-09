@@ -7,11 +7,10 @@ export class NotificationsService {
   private readonly logger = new Log();
 
   dispatchNotification(notification: NotificationsDto): void {
-    const { performedByUser, performedByUserId, taskId, performedAt } =
-      notification;
+    const { performedByUser, performedByUserId, taskId, performedAt } = notification;
 
     this.logger.log(
-      `The tech ${performedByUser} with id ${performedByUserId} performed the task ${taskId} on date ${performedAt}`,
+      `The tech ${performedByUser} with id ${performedByUserId} performed the task ${taskId} on date ${performedAt}`
     );
   }
 }
