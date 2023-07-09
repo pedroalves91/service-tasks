@@ -10,10 +10,10 @@ import { Task } from '../models/task.model';
 import { CreateTaskDto } from '../controllers/dtos/create-task.dto';
 import { UpdateTaskDto } from '../controllers/dtos/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { JwtMetadataDto } from '@libs/jwt/jwt-metadata.dto';
 import { TasksPublisher } from '../publishers/tasks.publisher';
-import { RoleType } from '@libs/guards/role-type.enum';
 import { v4 as uuidv4 } from 'uuid';
+import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
+import { RoleType } from '../../../libs/guards/role-type.enum';
 
 @Injectable()
 export class TasksService {

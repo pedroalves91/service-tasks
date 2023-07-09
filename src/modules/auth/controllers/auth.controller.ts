@@ -1,10 +1,10 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { LoginDto } from './dtos/login.dto';
-import { props } from '@config/props';
 import { sign } from 'jsonwebtoken';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { User } from '../models/user.model';
+import { props } from '../../../../config/props';
 
 @Controller('v1/auth')
 export class AuthController {

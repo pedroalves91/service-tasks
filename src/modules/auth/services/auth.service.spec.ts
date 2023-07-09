@@ -2,11 +2,11 @@ import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from '../controllers/dtos/login.dto';
 import { mock, MockProxy } from 'jest-mock-extended';
-import { RoleType } from '@libs/guards/role-type.enum';
 import { Repository } from 'typeorm';
 import { User } from '../models/user.model';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../controllers/dtos/create-user.dto';
+import { RoleType } from '../../../libs/guards/role-type.enum';
 
 describe('AuthService spec', () => {
   let usersRepository: MockProxy<Repository<User>>;

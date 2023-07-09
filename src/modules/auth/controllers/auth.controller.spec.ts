@@ -2,9 +2,9 @@ import { AuthService } from '../services/auth.service';
 import { mock, MockProxy } from 'jest-mock-extended';
 import { AuthController } from './auth.controller';
 import { LoginDto } from './dtos/login.dto';
-import { RoleType } from '@libs/guards/role-type.enum';
 import { verify } from 'jsonwebtoken';
-import { props } from '@config/props';
+import { RoleType } from '../../../libs/guards/role-type.enum';
+import { props } from '../../../../config/props';
 
 describe('AuthController spec', () => {
   let authService: MockProxy<AuthService>;

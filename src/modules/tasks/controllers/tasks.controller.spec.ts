@@ -1,4 +1,3 @@
-import { JwtMetadataDto } from '@libs/jwt/jwt-metadata.dto';
 import { TasksService } from '../services/tasks.service';
 import { TasksController } from './tasks.controller';
 import { mock, mockClear, MockProxy } from 'jest-mock-extended';
@@ -8,6 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ObjectId } from 'mongodb';
+import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
 
 describe('TasksController spec', () => {
   let manager: JwtMetadataDto;

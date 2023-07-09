@@ -1,7 +1,7 @@
 import { TasksConsumer } from './tasks.consumer';
 import { mock, MockProxy } from 'jest-mock-extended';
-import { NotificationsService } from '@notifications/services/notifications.service';
-import { NotificationsDto } from '@notifications/services/dtos/notifications.dto';
+import { NotificationsService } from '../../notifications/services/notifications.service';
+import { NotificationsDto } from '../../notifications/services/dtos/notifications.dto';
 
 describe('TasksConsumer Unit Tests', () => {
   let consumer: TasksConsumer;

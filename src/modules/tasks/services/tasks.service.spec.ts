@@ -1,4 +1,3 @@
-import { JwtMetadataDto } from '@libs/jwt/jwt-metadata.dto';
 import { mock, mockClear, MockProxy } from 'jest-mock-extended';
 import { Task } from '../models/task.model';
 import { Repository } from 'typeorm';
@@ -10,6 +9,7 @@ import {
   ForbiddenException,
   NotFoundException,
 } from '@nestjs/common';
+import { JwtMetadataDto } from '../../../libs/jwt/jwt-metadata.dto';
 
 describe('TasksService spec', () => {
   let manager: JwtMetadataDto;

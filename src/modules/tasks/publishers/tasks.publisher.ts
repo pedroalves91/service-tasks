@@ -1,7 +1,7 @@
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
-import { props } from '@config/props';
-import { NotificationsDto } from '@notifications/services/dtos/notifications.dto';
+import { NotificationsDto } from '../../notifications/services/dtos/notifications.dto';
+import { props } from '../../../../config/props';
 
 @Injectable()
 export class TasksPublisher {
