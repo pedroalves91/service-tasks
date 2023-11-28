@@ -1,6 +1,5 @@
 import { Exclude } from 'class-transformer';
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
-import { RoleType } from '../../../libs/guards/role-type.enum';
 
 @Entity()
 @Unique(['username'])
@@ -16,7 +15,7 @@ export class User {
   password: string;
 
   @Column()
-  role: RoleType;
+  role: string;
 
   @CreateDateColumn()
   createdAt?: Date;

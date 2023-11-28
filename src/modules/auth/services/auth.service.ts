@@ -2,16 +2,15 @@ import { ConflictException, Injectable, NotFoundException, UnauthorizedException
 import { LoginDto } from '../controllers/dtos/login.dto';
 import { User } from '../models/user.model';
 import * as bcrypt from 'bcrypt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CreateUserDto } from '../controllers/dtos/create-user.dto';
+import { PrismaService } from './prisma.service';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+  constructor(private prisma: PrismaService) {}
 
   findOne(username: string): Promise<User> {
-    return this.userRepository.findOneBy({ username });
+    return this.prisma.user.findUnique({ where: { username } }) as Promise<User>;
   }
 
   async validateUser(login: LoginDto): Promise<User | null> {
@@ -37,10 +36,12 @@ export class AuthService {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const data = {
+        ...createUserDto,
+        password: hashedPassword,
+    };
+
     // Create a new user
-    return this.userRepository.save({
-      ...createUserDto,
-      password: hashedPassword,
-    });
+    return this.prisma.user.create({ data })
   }
 }
