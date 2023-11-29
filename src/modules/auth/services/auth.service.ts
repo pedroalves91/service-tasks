@@ -37,11 +37,11 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const data = {
-        ...createUserDto,
-        password: hashedPassword,
+      ...createUserDto,
+      password: hashedPassword,
     };
 
     // Create a new user
-    return this.prisma.user.create({ data })
+    return this.prisma.user.create({ data });
   }
 }

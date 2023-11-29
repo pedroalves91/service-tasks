@@ -1,20 +1,18 @@
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from '../controllers/dtos/login.dto';
-import { mock, MockProxy } from 'jest-mock-extended';
-import { Repository } from 'typeorm';
-import { User } from '../models/user.model';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../controllers/dtos/create-user.dto';
 import { RoleType } from '../../../libs/guards/role-type.enum';
+import { PrismaService } from './prisma.service';
 
 describe('AuthService spec', () => {
-  let usersRepository: MockProxy<Repository<User>>;
+  let prisma: PrismaService;
   let authService: AuthService;
 
   beforeEach(() => {
-    usersRepository = mock<Repository<User>>();
-    authService = new AuthService(usersRepository);
+    prisma = new PrismaService();
+    authService = new AuthService(prisma);
   });
 
   describe('validateUser', () => {
@@ -61,11 +59,13 @@ describe('AuthService spec', () => {
       const newUser = CreateUserDto.Fixture.newUser();
 
       jest.spyOn(authService, 'findOne').mockResolvedValue(undefined);
-      usersRepository.save.mockResolvedValue({
+      jest.spyOn(prisma.user, 'create').mockResolvedValue({
         id: 1,
         username: newUser.username,
         password: newUser.password,
         role: newUser.role,
+        createdAt: new Date(),
+        deletedAt: null,
       });
 
       const user = await authService.signup(newUser);
